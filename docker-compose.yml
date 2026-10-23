@@ -1,0 +1,19 @@
+# Qiyen — personal site stack for NAS (Synology / QNAP / any Docker host)
+#
+#   ./frontend  → Nginx (static site; overwrite files, they are live immediately)
+#
+# Start:   docker compose up -d
+# Preview: http://<NAS-IP>:9177   (or http://localhost:9177 when run locally)
+
+name: qiyen-site
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: qiyen-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-9177}:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
